@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useFormStatus } from "react-dom";
 import { useActionState } from "react";
 import { login, type FormState } from "../actions";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 const initialState: FormState = {
@@ -32,7 +32,7 @@ function SubmitButton() {
   )
 }
 
-export default function LoginPage() {
+function LoginForm() {
   const [state, formAction] = useActionState(login, initialState)
   const [showPassword, setShowPassword] = useState(false)
   const searchParams = useSearchParams()
@@ -120,4 +120,12 @@ export default function LoginPage() {
       </form>
     </AuthCard>
   );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginForm />
+    </Suspense>
+  )
 }

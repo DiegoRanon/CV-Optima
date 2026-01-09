@@ -166,7 +166,7 @@
         "dependencies": [
           "2"
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": []
       },
       {
@@ -179,8 +179,76 @@
         "dependencies": [
           "2"
         ],
-        "status": "pending",
-        "subtasks": []
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Install pdf-parse and mammoth dependencies",
+            "description": "Install required npm packages for PDF and DOCX parsing",
+            "dependencies": [],
+            "details": "Run npm install pdf-parse mammoth to add the required libraries. Also install @types/pdf-parse for TypeScript support.",
+            "status": "done",
+            "testStrategy": "Verify packages are in package.json and node_modules after installation",
+            "parentId": "4",
+            "updatedAt": "2026-01-09T19:35:00.000Z"
+          },
+          {
+            "id": 2,
+            "title": "Create file validation utility",
+            "description": "Implement validation functions for file type and size checking",
+            "dependencies": [1],
+            "details": "Create lib/utils/file-validation.ts with functions to validate file type (PDF/DOCX only), file size (max 10MB), and MIME type checking. Return clear error messages for validation failures.",
+            "status": "done",
+            "testStrategy": "Unit test with various file types and sizes to ensure proper validation",
+            "parentId": "4",
+            "updatedAt": "2026-01-09T19:36:00.000Z"
+          },
+          {
+            "id": 3,
+            "title": "Implement PDF text extraction utility",
+            "description": "Create utility function to extract text from PDF files",
+            "dependencies": [1],
+            "details": "Create lib/utils/pdf-parser.ts that uses pdf-parse to extract text from PDF Buffer. Handle multi-page PDFs and preserve basic formatting. Implement error handling for corrupted PDFs.\n\nAPI FIX APPLIED: Updated to use pdf-parse v2.0+ class-based API. The library exports a PDFParse class (not a function). Correct usage:\n1. Dynamic import: const { PDFParse } = await import('pdf-parse')\n2. Instantiate: new PDFParse({ data: buffer })\n3. Extract text: await parser.getText()\n4. Get metadata: await parser.getInfo()\n5. Cleanup: await parser.destroy()\nThis resolves the 'pdfParse is not a function' error.",
+            "status": "done",
+            "testStrategy": "Test with various PDF resume formats including single and multi-page documents",
+            "parentId": "4",
+            "updatedAt": "2026-01-09T20:00:00.000Z"
+          },
+          {
+            "id": 4,
+            "title": "Implement DOCX text extraction utility",
+            "description": "Create utility function to extract text from DOCX files",
+            "dependencies": [1],
+            "details": "Create lib/utils/docx-parser.ts that uses mammoth to extract text from DOCX Buffer. Configure mammoth options to maintain paragraph structure. Handle conversion errors gracefully.",
+            "status": "done",
+            "testStrategy": "Test with various DOCX resume formats and verify text extraction quality",
+            "parentId": "4",
+            "updatedAt": "2026-01-09T19:38:00.000Z"
+          },
+          {
+            "id": 5,
+            "title": "Create parse-resume server action",
+            "description": "Implement the main server action that orchestrates file upload and parsing",
+            "dependencies": [2, 3, 4],
+            "details": "Create app/actions/parse-resume.ts server action that: 1) Validates uploaded file, 2) Uploads to Supabase Storage using existing storage utilities, 3) Calls appropriate parser (PDF or DOCX), 4) Stores extracted text and file metadata in resumes table, 5) Returns success/error response with proper TypeScript types.",
+            "status": "done",
+            "testStrategy": "Test complete flow from file upload to database storage with both PDF and DOCX files",
+            "parentId": "4",
+            "updatedAt": "2026-01-09T19:40:00.000Z"
+          },
+          {
+            "id": 6,
+            "title": "Add comprehensive error handling and testing",
+            "description": "Implement robust error handling and test edge cases",
+            "dependencies": [5],
+            "details": "Add try-catch blocks with specific error messages for: corrupted files, unsupported formats, storage failures, parsing errors, database errors. Create test cases for error scenarios. Add logging for debugging. Created comprehensive testing guide in docs/TESTING_RESUME_PARSER.md with detailed test cases and validation procedures. All error handling implemented with proper cleanup and user feedback.",
+            "status": "done",
+            "testStrategy": "Test with corrupted files, wrong file types, oversized files, and verify appropriate error messages are returned",
+            "parentId": "4",
+            "updatedAt": "2026-01-09T19:45:00.000Z"
+          }
+        ],
+        "updatedAt": "2026-01-09T19:45:00.000Z"
       },
       {
         "id": "5",
@@ -265,9 +333,9 @@
     ],
     "metadata": {
       "version": "1.0.0",
-      "lastModified": "2026-01-09T19:19:37.440Z",
+      "lastModified": "2026-01-09T19:45:00.000Z",
       "taskCount": 10,
-      "completedCount": 2,
+      "completedCount": 4,
       "tags": [
         "master"
       ]

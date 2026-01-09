@@ -1,3 +1,5 @@
+import { ResumeUploadForm } from './_components/resume-upload-form'
+
 export default function VaultPage() {
   return (
     <div className="space-y-6">
@@ -7,7 +9,15 @@ export default function VaultPage() {
           Manage your resume versions
         </p>
       </div>
-      {/* Resume management will be added in vault task */}
+      
+      <div className="grid gap-6">
+        <ResumeUploadForm />
+        
+        {/* Resume list will be added in task 5 */}
+        <div className="rounded-lg border border-dashed p-8 text-center text-zinc-500">
+          Resume list coming soon...
+        </div>
+      </div>
     </div>
   );
 }
