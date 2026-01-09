@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { signout } from "@/app/(auth)/actions";
 
 export function Header() {
   const pathname = usePathname();
@@ -12,6 +13,10 @@ export function Header() {
     { href: "/vault", label: "Vault" },
     { href: "/analyze", label: "Analyze" },
   ];
+
+  const handleSignOut = async () => {
+    await signout();
+  };
 
   return (
     <header className="border-b bg-white dark:bg-zinc-900">
@@ -36,7 +41,9 @@ export function Header() {
               </Link>
             );
           })}
-          <Button variant="outline">Sign Out</Button>
+          <Button variant="outline" onClick={handleSignOut}>
+            Sign Out
+          </Button>
         </nav>
       </div>
     </header>
