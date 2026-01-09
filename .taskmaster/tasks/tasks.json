@@ -1,0 +1,210 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": "1",
+        "title": "Project Setup and Next.js 14+ App Router Configuration",
+        "description": "Initialize the Next.js 14+ project with App Router, configure Tailwind CSS and shadcn/ui components, and set up the basic project structure",
+        "details": "Create a new Next.js 14+ project using `npx create-next-app@latest cv-optima --typescript --tailwind --eslint --app`. Install shadcn/ui components with `npx shadcn-ui@latest init`. Set up the folder structure: app/(auth), app/(dashboard), components/ui, lib/utils. Configure tailwind.config.js for shadcn/ui integration. Create basic layout components and routing structure for authentication and dashboard pages.",
+        "testStrategy": "Verify project builds successfully with `npm run build`. Test that Tailwind CSS classes render correctly. Ensure shadcn/ui components can be imported and displayed. Check that App Router navigation works between different route groups.",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Initialize Next.js 14+ Project with TypeScript and Tailwind",
+            "description": "Create the base Next.js 14+ project with App Router, TypeScript, Tailwind CSS, and ESLint configuration",
+            "dependencies": [],
+            "details": "Run `npx create-next-app@latest cv-optima --typescript --tailwind --eslint --app` to create the project. Verify the project structure includes the app directory for App Router. Test that the development server starts successfully with `npm run dev`.",
+            "status": "done",
+            "testStrategy": "Verify project builds successfully with `npm run build` and development server starts without errors",
+            "updatedAt": "2026-01-09T15:50:43.727Z",
+            "parentId": "undefined"
+          },
+          {
+            "id": 2,
+            "title": "Install and Configure shadcn/ui Component Library",
+            "description": "Set up shadcn/ui components and configure Tailwind CSS integration for consistent UI components",
+            "dependencies": [
+              1
+            ],
+            "details": "Install shadcn/ui using `npx shadcn-ui@latest init`. Configure tailwind.config.js to include shadcn/ui theme settings and CSS variables. Install essential components like Button, Card, Input, and Form components that will be used throughout the application.",
+            "status": "done",
+            "testStrategy": "Test that shadcn/ui components can be imported and render correctly with proper styling",
+            "parentId": "undefined",
+            "updatedAt": "2026-01-09T15:54:28.046Z"
+          },
+          {
+            "id": 3,
+            "title": "Create Project Folder Structure and Route Groups",
+            "description": "Establish the organized folder structure with App Router route groups for authentication and dashboard sections",
+            "dependencies": [
+              2
+            ],
+            "details": "Create folder structure: app/(auth) for login/signup pages, app/(dashboard) for main application pages, components/ui for reusable components, lib/utils for utility functions. Set up route groups to organize authentication and dashboard layouts separately.",
+            "status": "done",
+            "testStrategy": "Verify that route groups work correctly and pages can be accessed at expected URLs",
+            "parentId": "undefined",
+            "updatedAt": "2026-01-09T15:56:34.868Z"
+          },
+          {
+            "id": 4,
+            "title": "Create Basic Layout Components",
+            "description": "Build foundational layout components for authentication and dashboard sections using shadcn/ui",
+            "dependencies": [
+              3
+            ],
+            "details": "Create layout.tsx files for both (auth) and (dashboard) route groups. Build header, navigation, and footer components using shadcn/ui components. Implement responsive design patterns and ensure consistent styling across layouts.",
+            "status": "done",
+            "testStrategy": "Test responsive design on different screen sizes and verify layout components render correctly",
+            "parentId": "undefined",
+            "updatedAt": "2026-01-09T15:58:29.735Z"
+          },
+          {
+            "id": 5,
+            "title": "Set Up App Router Navigation Structure",
+            "description": "Implement the routing structure and navigation between authentication and dashboard pages",
+            "dependencies": [
+              4
+            ],
+            "details": "Create placeholder pages for authentication (login, signup) and dashboard (home, vault) routes. Implement navigation components with proper Link usage for App Router. Set up navigation state management and active route highlighting.",
+            "status": "done",
+            "testStrategy": "Test navigation between different routes works correctly and active states are properly displayed",
+            "parentId": "undefined",
+            "updatedAt": "2026-01-09T16:00:13.095Z"
+          }
+        ],
+        "updatedAt": "2026-01-09T16:00:13.095Z"
+      },
+      {
+        "id": "2",
+        "title": "Supabase Integration and Database Schema Setup",
+        "description": "Set up Supabase project, configure authentication, create database tables, and implement Row Level Security policies",
+        "details": "Create Supabase project and install @supabase/supabase-js. Set up environment variables for SUPABASE_URL and SUPABASE_ANON_KEY. Create database tables: profiles (id, full_name, credits), resumes (id, user_id, file_url, raw_text, title, created_at), analyses (id, resume_id, job_description_text, match_score, missing_keywords JSONB, suggestions JSONB). Implement RLS policies: users can only access their own profiles, resumes, and analyses. Configure Supabase Storage bucket for resume uploads with appropriate security policies.",
+        "testStrategy": "Test database connection from Next.js app. Verify RLS policies by attempting to access data from different user contexts. Test Supabase Storage upload functionality. Ensure all foreign key relationships work correctly.",
+        "priority": "high",
+        "dependencies": [
+          "1"
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": "3",
+        "title": "Authentication System Implementation",
+        "description": "Implement user authentication using Supabase Auth with email/password and social login options (Google/GitHub)",
+        "details": "Create authentication components using shadcn/ui forms. Implement sign-up, sign-in, and sign-out functionality using Supabase Auth. Set up social authentication providers (Google and GitHub) in Supabase dashboard. Create middleware for protected routes. Implement session management and user context using React Context or Zustand. Create profile management page for users to update basic details.",
+        "testStrategy": "Test email/password registration and login flows. Verify social login integration with Google and GitHub. Test session persistence across browser refreshes. Ensure protected routes redirect unauthenticated users to login. Test profile update functionality.",
+        "priority": "high",
+        "dependencies": [
+          "2"
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": "4",
+        "title": "PDF Parsing and Text Extraction Service",
+        "description": "Implement PDF and DOCX parsing functionality to extract text content from uploaded resume files",
+        "details": "Install pdf-parse library for PDF text extraction and mammoth for DOCX parsing. Create a server action `/app/actions/parse-resume.ts` that handles file upload to Supabase Storage and text extraction. Implement error handling for corrupted files and unsupported formats. Store extracted text in the resumes table raw_text column. Add file validation to ensure only PDF and DOCX files are accepted with size limits (max 10MB).",
+        "testStrategy": "Test PDF text extraction with various resume formats including those with different layouts. Test DOCX parsing functionality. Verify file upload to Supabase Storage works correctly. Test error handling with corrupted files and unsupported formats. Ensure extracted text maintains reasonable formatting and readability.",
+        "priority": "high",
+        "dependencies": [
+          "2"
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": "5",
+        "title": "Resume Management Dashboard (The Vault)",
+        "description": "Create the resume management interface allowing users to upload, view, and manage multiple resume versions",
+        "details": "Build dashboard UI using shadcn/ui components including file upload dropzone, resume list with cards showing title and upload date. Implement resume versioning system allowing users to save multiple versions with custom titles. Create resume detail view showing extracted text preview. Add functionality to delete resumes with confirmation dialog. Implement drag-and-drop file upload using react-dropzone library.",
+        "testStrategy": "Test file upload flow from drag-and-drop to successful storage. Verify resume list displays correctly with proper pagination if needed. Test resume versioning by uploading multiple versions. Ensure delete functionality works with proper confirmation. Test responsive design on mobile devices.",
+        "priority": "medium",
+        "dependencies": [
+          "3",
+          "4"
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": "6",
+        "title": "OpenAI Integration and Analysis Engine",
+        "description": "Implement the core AI analysis functionality using OpenAI GPT-4o to compare resumes against job descriptions",
+        "details": "Install openai package and configure API key in environment variables. Create server action `/app/actions/analyze-resume.ts` that constructs prompts for ATS simulation. Implement prompt engineering: 'Act as an ATS system. Compare the following resume against this job description. Return JSON with: match_score (0-100), missing_keywords (array), formatting_issues (array), and actionable_improvements (array of 3 items).' Handle OpenAI API responses and store results in analyses table. Implement error handling for API failures and rate limits.",
+        "testStrategy": "Test OpenAI API integration with sample resume and job description. Verify JSON response parsing and database storage. Test error handling for API failures and malformed responses. Validate match score calculation consistency. Test with various resume and job description combinations to ensure reliable analysis.",
+        "priority": "high",
+        "dependencies": [
+          "4"
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": "7",
+        "title": "Job Description Input and Analysis Interface",
+        "description": "Create the interface for users to input job descriptions and initiate resume analysis",
+        "details": "Build job analysis interface with textarea for job description input and resume selection dropdown. Create 'New Scan' workflow that guides users through selecting a resume and pasting job description. Implement real-time character count and basic validation for job description input. Add loading states during analysis processing. Create results display showing match score, missing keywords, and formatting issues using charts and lists.",
+        "testStrategy": "Test job description input validation and character limits. Verify resume selection functionality works correctly. Test analysis workflow from input to results display. Ensure loading states provide good user feedback. Test results display with various analysis outcomes.",
+        "priority": "medium",
+        "dependencies": [
+          "5",
+          "6"
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": "8",
+        "title": "Analysis Results Display and Visualization",
+        "description": "Create comprehensive analysis results interface showing match scores, missing keywords, and improvement suggestions",
+        "details": "Design results dashboard using shadcn/ui components including progress bars for match scores, badge components for keywords, and card layouts for suggestions. Implement data visualization using recharts library for score trends. Create expandable sections for detailed analysis breakdown. Add color coding for different priority levels (high/medium/low) for missing keywords and suggestions. Implement results history view showing past analyses.",
+        "testStrategy": "Test results display with various analysis data structures. Verify data visualization renders correctly with different score ranges. Test expandable sections and interactive elements. Ensure color coding and priority indicators work correctly. Test results history functionality and pagination.",
+        "priority": "medium",
+        "dependencies": [
+          "7"
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": "9",
+        "title": "AI-Powered Content Adaptation Engine (The Writer)",
+        "description": "Implement the resume adaptation functionality that generates optimized content based on analysis results",
+        "details": "Create server action for content generation using OpenAI API with prompts like: 'Rewrite this resume bullet point to naturally include these missing keywords: [keywords]. Maintain professional tone and truthfulness.' Implement professional summary generator tailored to specific job descriptions. Create interface for users to select which suggestions to apply. Add before/after comparison view for modified content. Implement export functionality for optimized text content.",
+        "testStrategy": "Test bullet point rewriting with various input combinations. Verify professional summary generation produces relevant content. Test suggestion application workflow and before/after comparisons. Ensure export functionality works correctly. Validate that generated content maintains professional quality and accuracy.",
+        "priority": "medium",
+        "dependencies": [
+          "8"
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": "10",
+        "title": "Credit System and Usage Tracking",
+        "description": "Implement the credit-based usage system for analysis and adaptation features with free tier limitations",
+        "details": "Add credit tracking to user profiles with default 5 free credits for new users. Implement credit deduction logic for analysis and adaptation actions. Create credit display component showing remaining credits. Add credit purchase flow preparation (UI only for MVP). Implement usage history tracking in database. Create admin interface for credit management. Add credit validation middleware to prevent unauthorized usage.",
+        "testStrategy": "Test credit deduction on analysis and adaptation actions. Verify credit display updates correctly after usage. Test free tier limitations and blocking when credits are exhausted. Ensure credit validation prevents unauthorized access. Test usage history tracking and display.",
+        "priority": "low",
+        "dependencies": [
+          "9"
+        ],
+        "status": "pending",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "version": "1.0.0",
+      "lastModified": "2026-01-09T16:00:13.097Z",
+      "taskCount": 10,
+      "completedCount": 1,
+      "tags": [
+        "master"
+      ]
+    }
+  }
+}
